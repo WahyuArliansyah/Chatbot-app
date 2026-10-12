@@ -6,7 +6,7 @@
  */
 
 // API Key Google Gemini (Google AI Studio)
-define('GEMINI_API_KEY', 'INI_KEY_GEMINI_SAYA)');
+define('GEMINI_API_KEY', 'INI_KEY_GEMINI_SAYA');
 
 // Model Gemini yang digunakan
 define('GEMINI_MODEL', 'gemini-3.8-flash');
