@@ -340,7 +340,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     try {
       // 4. Request ke backend terpisah (api.php) dengan sinyal AbortController
-      const response = await fetch('api.php', {
+      const API_URL = (window.location.origin.includes('5500') || window.location.protocol === 'file:')
+        ? 'http://localhost/belajar-ai/api.php'
+        : 'api.php';
+
+      // Request ke backend terpisah (api.php) dengan sinyal AbortController
+      const response = await fetch(API_URL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

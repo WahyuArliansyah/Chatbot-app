@@ -12,6 +12,15 @@ ini_set('display_errors', 0);
 // Set header JSON response
 header('Content-Type: application/json; charset=UTF-8');
 header('X-Content-Type-Options: nosniff');
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With");
+
+// Handle preflight request (OPTIONS) untuk browser
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit;
+}
 
 // Muat konfigurasi API Key dan model
 require_once __DIR__ . '/config.php';
@@ -96,16 +105,22 @@ $endpointUrl = GEMINI_API_URL . '?key=' . GEMINI_API_KEY;
 
 // Inisialisasi cURL
 $ch = curl_init($endpointUrl);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_POST, true);
-curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($payload));
-curl_setopt($ch, CURLOPT_TIMEOUT, 30);
-curl_setopt($ch, CURLOPT_HTTPHEADER, [
-    'Content-Type: application/json; charset=UTF-8'
+
+curl_setopt_array($ch, [
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_POST => true,
+    CURLOPT_POSTFIELDS => json_encode($payload),
+    CURLOPT_HTTPHEADER => [
+        'Content-Type: application/json; charset=UTF-8'
+    ],
+    CURLOPT_CONNECTTIMEOUT => 10,       // Waktu maksimal untuk membuka koneksi (10 detik)
+    CURLOPT_TIMEOUT => 90,              // Naikkan timeout eksekusi jadi 90 detik agar Gemini sempat jawab
+    CURLOPT_IPRESOLVE => CURL_IPRESOLVE_V4, // Pakai IPv4 saja untuk hindari lag/hang dari IPv6
+    CURLOPT_SSL_VERIFYPEER => true
 ]);
 
 // Eksekusi request dengan mekanisme retry otomatis jika server Google sibuk (429/503)
-$maxAttempts = 3;
+$maxAttempts = 2;
 $response = false;
 $httpCode = 0;
 

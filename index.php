@@ -42,14 +42,14 @@ require_once __DIR__ . '/config.php';
             </div>
 
             <div class="header-actions">
-                <button type="button" class="btn-header" id="infoBtn" title="Informasi Arsitektur">
+                <!-- <button type="button" class="btn-header" id="infoBtn" title="Informasi Arsitektur">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <circle cx="12" cy="12" r="10"/>
                         <line x1="12" y1="16" x2="12" y2="12"/>
                         <line x1="12" y1="8" x2="12.01" y2="8"/>
                     </svg>
                     <span>Struktur Sistem</span>
-                </button>
+                </button> -->
                 <button type="button" class="btn-header" id="clearChatBtn" title="Hapus Riwayat Obrolan">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M3 6h18"/>
@@ -117,7 +117,7 @@ require_once __DIR__ . '/config.php';
         <!-- Area Input Pesan (Floating Glass Box) -->
         <footer class="chat-input-area">
             <div class="input-container">
-                <form id="chatForm">
+                <form id="chatForm" novalidate>
                     <div class="input-box">
                         <textarea 
                             id="chatInput" 
